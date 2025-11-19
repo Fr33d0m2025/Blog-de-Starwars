@@ -3,15 +3,16 @@ import { Link } from "react-router";
 import { FavoritesContext } from "../store/FavoritesContext";
 
 export function Card({ data, category }) {
-  const { toggleFavorite, favoriteExists} = useContext(FavoritesContext)
+  const { toggleFavorite, favoriteExists } = useContext(FavoritesContext);
   const { name, uid } = data;
 
   return (
     <div className="card col-4">
       <img
-        src="https://placehold.co/400x200"
+        src={`/images/${category}/${name.toLowerCase().replace("/", "-").split(" ").join("-")}.jpg`}
         alt="image"
-        className="card-img-top"
+        className="object-fit-cover"
+        style={{ height: "250px" }}
       />
       <div className="card-body">
         <div className="card-title">{name}</div>
@@ -20,11 +21,14 @@ export function Card({ data, category }) {
         <Link className="btn btn-outline-primary" to={`${category}/${uid}`}>
           Learn More!
         </Link>
-        <button className={`btn btn-outline-warning ${
-          favoriteExists(uid, name) ? 'active' : ''}`}
-          onClick={ () => toggleFavorite(category, uid, name) }>
-            {favoriteExists(uid, name) ? '♥' : '♡'}
-            </button>
+        <button
+          className={`btn btn-outline-warning ${
+            favoriteExists(uid, name) ? "active" : ""
+          }`}
+          onClick={() => toggleFavorite(category, uid, name)}
+        >
+          {favoriteExists(uid, name) ? "♥" : "♡"}
+        </button>
       </div>
     </div>
   );

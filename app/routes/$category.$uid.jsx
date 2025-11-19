@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { useLoaderData, useParams } from "react-router";
 
 export async function loader({ params }) {
   const { category, uid } = params;
+
   const response = await fetch(`https://swapi.tech/api/${category}/${uid}`);
   const json = await response.json();
   const arr = Object.entries(json.result.properties);
@@ -18,13 +18,23 @@ export async function loader({ params }) {
 
 export default function Details() {
   const data = useLoaderData();
+  const params = useParams();
+  const { category } = params;
+  console.log(data, category);
 
   return (
-    <>
-      <img src="https://placehold.co/800x600" alt="image" />
-      {data.map(([key, value]) => (
-        <p>{`${key}: ${value}`}</p>
+    <div className="container">
+      {data.map(([key, value], i) => (
+        <>
+          {key == "name" && (
+            <img
+              src={`/images/${category}/${value.toLowerCase().replace("/", "-").split(" ").join("-")}.jpg`}
+              className="object-fit-contain"
+            />
+          )}
+          <p key={i}>{`${key}: ${value}`}</p>
+        </>
       ))}
-    </>
+    </div>
   );
 }
