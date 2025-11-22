@@ -1,13 +1,19 @@
 
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { FavoritesContext } from '../store/FavoritesContext'
-import { Link } from 'react-router'
+import { Link, useLocation } from 'react-router'
 
 export default function Navbar() {
   const { favorites, deleteFavorite } = useContext(FavoritesContext)
+  const location = useLocation()
 
   return (
     <nav className='nav px-5 py-3 bg-dark-subtle sticky-top'>
+      {location.pathname !== '/' && (
+        <Link to='/' className='btn btn-primary'>
+          Home
+        </Link>
+      )}
       <div className='btn-group ms-auto'>
         <button
           type='button'

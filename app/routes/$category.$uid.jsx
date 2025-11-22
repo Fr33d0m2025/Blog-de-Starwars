@@ -22,19 +22,29 @@ export default function Details() {
   const { category } = params;
   console.log(data, category);
 
+  const nameEntry = data.find(([key]) => key === "name");
+  const imageName = nameEntry ? nameEntry[1] : "";
+
   return (
     <div className="container">
-      {data.map(([key, value], i) => (
-        <>
-          {key == "name" && (
-            <img
-              src={`/images/${category}/${value.toLowerCase().replace("/", "-").split(" ").join("-")}.jpg`}
-              className="object-fit-contain"
-            />
-          )}
-          <p key={i}>{`${key}: ${value}`}</p>
-        </>
-      ))}
+      <div className="d-flex justify-content-center my-4">
+        <img
+          src={`/images/${category}/${imageName.toLowerCase().replace("/", "-").split(" ").join("-")}.jpg`}
+          className="object-fit-cover rounded"
+          height="400"
+          width="400"
+        />
+      </div>
+      <table className="table table-striped table-bordered">
+        <tbody>
+          {data.map(([key, value], i) => (
+            <tr key={i}>
+              <th className="text-capitalize">{key.replace(/_/g, " ")}</th>
+              <td>{value}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
